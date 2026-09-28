@@ -17,12 +17,21 @@
       "args": [
         "%OUTDIR%/%DOCFILE%"
       ]
+    },
+    {
+      "name": "copyPdfToRoot",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-Command",
+        "Copy-Item -Force '%OUTDIR%/%DOCFILE%.pdf' '%DIR%/%DOCFILE%.pdf'"
+      ]
     }
   ],
   "latex-workshop.latex.recipes": [
     {
       "name": "pdflatex ×2 + bibtex (apacite)",
-      "tools": ["pdflatex", "bibtex", "pdflatex", "pdflatex"]
+      "tools": ["pdflatex", "bibtex", "pdflatex", "pdflatex", "copyPdfToRoot"]
     }
   ],
   "latex-workshop.latex.recipe.default": "pdflatex ×2 + bibtex (apacite)",
