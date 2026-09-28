@@ -8,6 +8,7 @@
         "-interaction=nonstopmode",
         "-file-line-error",
         "-output-directory=%OUTDIR%",
+        "-jobname=LaTeX-manuscript-template-APA---Sato-1-Col-adaptado",
         "%DOC%"
       ]
     },
@@ -15,7 +16,7 @@
       "name": "bibtex",
       "command": "bibtex",
       "args": [
-        "%OUTDIR%/%DOCFILE%"
+        "%OUTDIR%/LaTeX-manuscript-template-APA---Sato-1-Col-adaptado"
       ]
     },
     {
@@ -24,7 +25,7 @@
       "args": [
         "-NoProfile",
         "-Command",
-        "Copy-Item -Force '%OUTDIR%/%DOCFILE%.pdf' '%DIR%/%DOCFILE%.pdf'"
+        "Copy-Item -Force '%OUTDIR%/LaTeX-manuscript-template-APA---Sato-1-Col-adaptado.pdf' '%DIR%/LaTeX-manuscript-template-APA---Sato-1-Col-adaptado.pdf'"
       ]
     }
   ],
