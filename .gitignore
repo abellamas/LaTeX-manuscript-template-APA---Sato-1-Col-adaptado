@@ -1,2 +1,21 @@
+# Salidas de compilación
+main.pdf
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.bbl
+*.blg
+*.bcf
+*.run.xml
+
+# Windows / Google Drive / Office
+desktop.ini
+Thumbs.db
+~$*
 build/
-*.pdf

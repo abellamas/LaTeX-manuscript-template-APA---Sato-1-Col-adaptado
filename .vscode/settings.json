@@ -1,55 +1,49 @@
 {
-  "latex-workshop.latex.tools": [
-    {
-      "name": "pdflatex",
-      "command": "pdflatex",
-      "args": [
-        "-synctex=1",
-        "-interaction=nonstopmode",
-        "-file-line-error",
-        "-output-directory=%OUTDIR%",
-        "-jobname=LaTeX-manuscript-template-APA---Sato-1-Col-adaptado",
-        "%DOC%"
-      ]
-    },
-    {
-      "name": "bibtex",
-      "command": "bibtex",
-      "args": [
-        "%OUTDIR%/LaTeX-manuscript-template-APA---Sato-1-Col-adaptado"
-      ]
-    },
-    {
-      "name": "copyPdfToRoot",
-      "command": "powershell",
-      "args": [
-        "-NoProfile",
-        "-Command",
-        "Copy-Item -Force '%OUTDIR%/LaTeX-manuscript-template-APA---Sato-1-Col-adaptado.pdf' '%DIR%/LaTeX-manuscript-template-APA---Sato-1-Col-adaptado.pdf'"
-      ]
-    }
-  ],
-  "latex-workshop.latex.recipes": [
-    {
-      "name": "pdflatex ×2 + bibtex (apacite)",
-      "tools": ["pdflatex", "bibtex", "pdflatex", "pdflatex", "copyPdfToRoot"]
-    }
-  ],
-  "latex-workshop.latex.recipe.default": "pdflatex ×2 + bibtex (apacite)",
-  "latex-workshop.latex.rootFile.doNotPrompt": true,
-  "latex-workshop.latex.autoBuild.run": "onSave",
-  "latex-workshop.latex.clean.subfolder.enabled": true,
-  "latex-workshop.latex.clean.fileTypes": [
-    "*.aux",
-    "*.bbl",
-    "*.blg",
-    "*.log",
-    "*.out",
-    "*.synctex.gz",
-    "*.toc",
-    "*.fls",
-    "*.fdb_latexmk"
-  ],
-  "latex-workshop.view.pdf.viewer": "tab",
-  "latex-workshop.latex.outDir": "%DIR%/build"
+    // Compilar con la configuracion de .latexmkrc (pdflatex + biber, salida en build/).
+    // latexmk corre en esta carpeta, asi que toma el .latexmkrc solo.
+    // Sirve igual en VS Code y en Antigravity, con la extension LaTeX Workshop.
+    "latex-workshop.latex.tools": [
+        {
+            "name": "latexmk-latexmkrc",
+            "command": "latexmk",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "%DOC%"
+            ]
+        },
+        {
+            // Borra todo lo generado en build/, incluido el estado de latexmk.
+            "name": "latexmk-limpiar",
+            "command": "latexmk",
+            "args": ["-C", "%DOC%"]
+        }
+    ],
+    "latex-workshop.latex.recipes": [
+        {
+            // Receta de todos los dias.
+            "name": "Manuscrito (pdflatex + biber)",
+            "tools": ["latexmk-latexmkrc"]
+        },
+        {
+            // Usar si latexmk queda trabado despues de un error
+            // ("Nothing to do" / "gave an error in previous invocation").
+            "name": "Limpiar y compilar",
+            "tools": ["latexmk-limpiar", "latexmk-latexmkrc"]
+        }
+    ],
+    // Donde buscar el PDF y el synctex: tiene que coincidir con $out_dir de .latexmkrc.
+    "latex-workshop.latex.outDir": "%DIR%/build",
+    "latex-workshop.latex.rootFile.doNotPrompt": true,
+    "latex-workshop.latex.rootFile.useSubFile": false,
+    // Compilar solo cuando se pide, no en cada guardado.
+    "latex-workshop.latex.autoBuild.run": "never",
+    // No borrar los auxiliares despues de compilar: latexmk necesita su estado
+    // en build/ para saber que recompilar. build/ esta ignorado por git.
+    "latex-workshop.latex.autoClean.run": "never",
+    // El comando "Clean up auxiliary files" usa latexmk, que respeta build/.
+    "latex-workshop.latex.clean.method": "command",
+    "latex-workshop.latex.clean.command": "latexmk",
+    "latex-workshop.latex.clean.args": ["-c", "%TEX%"]
 }
